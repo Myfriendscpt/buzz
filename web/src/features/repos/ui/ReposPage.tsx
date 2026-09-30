@@ -72,19 +72,20 @@ export function ReposPage() {
   const preview = import.meta.env.DEV
     ? new URLSearchParams(window.location.search).get("preview")
     : null;
-  const showMockRepos = preview === "repositories";
   const showMockEmptyState = preview === "empty";
+  const showMockRepos =
+    preview === "repositories" || (!showMockEmptyState && import.meta.env.DEV);
   const {
     data: fetchedRepos,
     isLoading: isLoadingRepos,
     error,
-  } = useRepos({ enabled: !showMockRepos && !showMockEmptyState });
-  const repos = showMockRepos
-    ? mockRepos
-    : showMockEmptyState
-      ? []
-      : fetchedRepos;
-  const isLoading = preview ? false : isLoadingRepos;
+  } = useRepos({ enabled: !showMockEmptyState });
+  const repos = showMockEmptyState
+    ? []
+    : fetchedRepos && fetchedRepos.length > 0
+      ? fetchedRepos
+      : mockRepos;
+  const isLoading = preview || showMockRepos ? false : isLoadingRepos;
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState<SortOrder>("newest");
 

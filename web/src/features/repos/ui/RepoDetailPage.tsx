@@ -180,11 +180,7 @@ function RepoTabs({
 
 export function RepoDetailPage() {
   const { repoId } = useParams({ from: "/repos/$repoId" });
-  const preview =
-    import.meta.env.DEV &&
-    new URLSearchParams(window.location.search).get("preview") ===
-      "repositories";
-  const mockRepo = preview ? getMockRepo(repoId) : undefined;
+  const mockRepo = getMockRepo(repoId);
   const showMockRepo = Boolean(mockRepo);
   const {
     data: repo,
@@ -268,7 +264,7 @@ export function RepoDetailPage() {
       {/* Main content */}
       <div className="min-w-0 flex-1">
         {/* Back link */}
-        <BackToRepositories mockPreview={preview} />
+        <BackToRepositories mockPreview={showMockRepo} />
 
         {/* Mobile-only connect button */}
         <div className="mt-4 lg:hidden">
