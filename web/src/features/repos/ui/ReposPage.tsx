@@ -9,6 +9,7 @@ import { useRepos } from "../use-repos";
 import { ConnectButton } from "./ConnectButton";
 import { OrgSidebar } from "./OrgSidebar";
 import { RepoListItem } from "./RepoListItem";
+import { OnboardingBotWidget } from "@/features/onboarding-bot";
 
 type SortOrder = "newest" | "oldest" | "name";
 
@@ -64,6 +65,7 @@ function CommunityEmptyState() {
         </p>
         <ConnectButton className="mt-6" />
       </div>
+      <OnboardingBotWidget />
     </div>
   );
 }
@@ -155,6 +157,37 @@ export function ReposPage() {
           <ConnectButton className="w-full" />
         </div>
 
+        {/* Onboarding Welcome Banner */}
+        <div className="mb-6 flex flex-col items-start justify-between gap-4 rounded-xl border border-amber-500/20 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent p-4 sm:flex-row sm:items-center dark:border-amber-400/20 dark:from-amber-400/10">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-400 font-bold text-neutral-900 shadow-xs">
+              🐝
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold text-neutral-900 dark:text-white">
+                New to the Buzz Community?
+              </h3>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                Meet Fizz, your autonomous onboarding guide. Learn the stack,
+                explore repos, or ask setup questions.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              const btn = document.querySelector(
+                '[aria-label="Open Onboarding Bot"]',
+              ) as HTMLButtonElement | null;
+              btn?.click();
+            }}
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-black px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200"
+          >
+            <span>Ask Fizz</span>
+            <span className="text-amber-400">✨</span>
+          </button>
+        </div>
+
         <h2 className="mb-4 flex items-center gap-2 text-lg font-semibold text-black dark:text-white">
           <BookMarked className="h-4 w-4" /> Repositories
         </h2>
@@ -195,6 +228,9 @@ export function ReposPage() {
       <aside className="hidden w-72 shrink-0 border-l border-black/10 pl-8 dark:border-white/10 lg:block">
         <OrgSidebar repos={repos} />
       </aside>
+
+      {/* Onboarding Guide Bot */}
+      <OnboardingBotWidget />
     </div>
   );
 }
